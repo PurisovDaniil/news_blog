@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Поиск по запросу: {{query}}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                {% for post in posts %}
+                <div class="col-md-4">
+                    {% if post.image.url != null %}
+                    <img src="{{post.image.url}}" alt="..." style="height: 300px;">
+                    {% else %}
+                    <img src="" alt="{{post.title}}" class="scard-img-top" style="height: 300px;">
+                    {% endif %}
+                    <h3>{{ post.title }}</h3>
+                </div>
+                {% empty %}
+                    <h2 style="text-align: center;">По вашему запросу '{{query}}' ничего не найдено</h2>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

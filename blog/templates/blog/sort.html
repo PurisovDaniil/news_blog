@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Новости
+{% endblock %}
+{% block content %}
+<h3 class="text-center">Все новости</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                {% for post in posts %}
+                <div class="col-md-6">
+                    <div class="card border-dark mb-3">
+                        {% if post.image.url != null %}
+                        <img src="{{post.image.url}}" alt="" style="height: 200px; object-fit: cover;" class="card-img-top">
+                        {% else %}
+                        <img src="" alt="{{post.title}}" style="height: 200px;" class="card-img-top">
+                        {% endif %}
+                        <div class="card-body">
+                            <a href="{{post.get_link}}"><h5 class="card-title">{{post.title}}</h5></a>
+                            <p class="card-text">{{post.content|safe|slice:'0:100'}}...</p>
+                            <p><b>Просмотров: {{post.views}}</b></p>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+        </div>
+                {% endfor %}
+    </div>
+    <div class="col-md-3">
+        <form action="{% url 'sort' %}" method="GET">
+            <select name="sort" id="" onchange="{this.form.submit()}">
+                <option {% if query == '-date' %} selected {% endif %} value="-date">Сначала новые</option>
+                <option {% if query == 'date' %} selected {% endif %} value="date">Сначала старые</option>
+                <option {% if query == '-views' %} selected {% endif %} value="-views">Сначала популярные</option>
+                <option {% if query == 'views' %} selected {% endif %} value="views">Сначала непопулярные</option>
+            </select>
+        </form>
+    </div>
+</div>
+{% endblock %}

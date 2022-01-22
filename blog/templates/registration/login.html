@@ -1,0 +1,28 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block title %}
+Вход
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-9" style="text-align: center;">
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                <p>
+                    {{form.username.label}}
+                    {{form.username}}
+                </p>
+                <p>
+                    {{form.password.label}}
+                    {{form.password}}
+                </p>
+                <button class="btn btn-success">Войти</button>
+            </form>
+        </div>
+        <div class="col-md-3">
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block title %}
+{{category_title}}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-9" style="padding: 20px;">
+            {% if category.image.url != null %}
+            <img src="{{ category.image.url}}" alt="" style="height: 500px; width: 100%; object-fit: cover;">
+            {% endif %}
+            <h3>{{ category.title }}</h3>
+            <hr>
+        <div class="row">
+            {% for post in category.post_set.all %}
+                <div class="card border-dark mb-3" style="width: 18rem; text-align: center; display: flex; justify-content: center;"></div>
+                {% if post.image.url != null %}
+                    <img src="{{ post.image.url }}" alt="..." style="height: 200px; object-fit: cover;" class="card-img-top">
+                {% endif %}
+                <div class="card-body">
+                    <a href="{{ post.get_link}}">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                    </a>
+                    <p class="card-text">{{ post.text|safe|slice:'0:100'}}...</p>
+                    <a href="{{ post.category.get_link }}" class="btn btn-dark">{{post.category.title}}</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Главная страница
+{% endblock %}
+{% block content %}
+<h3 class="text-center">Популярные новости</h3>
+
+<div class="row row-cols-1 row-cols-md-3 g-4" style="width: 100%;">
+    {% for post in news %}
+    <div class="col">
+        <div class="card">
+            {% if post.image.url != null %}
+            <img src="{{post.image.url}}" alt="..." class="card-img-top" style="height: 300px;">
+            {% else %}
+            <img src="" alt="{{post.title}}" class="card-img-top" style="height: 300px;">
+            {% endif %}
+            <div class="card-body">
+                <a href="{{post.get_link}}">
+                    <h5 class="card-title">{{post.title}}</h5>
+                </a>
+                <p class="card-text">{{post.text|slice:'0:50'}}</p>
+                <p><b>Просмотров: {{post.views}}</b></p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<h3 class="text-center">Популярные категории</h3>
+
+<div class="row row-cols-1 row-cols-md-3 g-4" style="width: 100%;">
+    {% for category in categories %}
+    <div class="col">
+        <div class="card">
+            {% if category.image.url != null %}
+            <img src="{{category.image.url}}" alt="..." class="card-img-top" style="height: 300px;">
+            {% else %}
+            <img src="" alt="..." class="cad-img-top" style="height: 300px;">
+            {% endif %}
+            <div class="card-body">
+                <a href="{{category.get_link}}">
+                    <h5 class="card-title">{{category.title}}</h5>
+                    
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

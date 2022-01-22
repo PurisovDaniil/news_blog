@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+{{post.title}}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-9" style="padding: 20px;">
+            {% if post.image.url != null %}
+            <img src="{{ post.image.url }}" alt="" style="height: 500px; width: 100%; object-fit: cover;">
+            {% endif %}
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.text }}</p>
+            <p class="text-right"><b>Просмотров: {{ post.views }}</b></p>
+            <p class="text-right"><i>{{ post.date|date:'d, F, Y' }}</i></p>
+            <hr>
+            <p>
+                <i>
+                    Комментариев: {{post.comment_set_count}}
+                </i>
+            </p>
+            <h3>Оставьте ваш комментарий</h3>
+            {% if user.is_authenticated %}
+            <form action="{% url 'comment' post.slug %}" method="POST">
+                {% csrf_token %}
+                <p>
+                    <textarea name="text" class="form-control"></textarea>
+                </p>
+                <p class="text_right">
+                    <button class="btn btn-outline-primary">Отправить</button>
+                </p>
+            </form>
+            {% else %}
+            <p>
+                Чтобы оставить комментарий <a href="{% url 'register'%}">Зарегистрируйтесь</a> или <a href="{% url 'login' %}">Войдите</a>
+            </p>
+            {% endif %}
+            <hr>
+            {% for comment in post.comment_set.all %}
+            <div class="col-md-12">
+                <h3>
+                    {{comment.user.username}}
+                </h3>
+                <p>
+                    {{comment.text}}
+                </p>
+                <p class="text-right">
+                    {{comment.date|timesince}} назад
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
