@@ -11,16 +11,16 @@ class RegisterForm(UserCreationForm):
     last_name = forms.CharField(label= "Фамилия", required= True, widget=forms.TextInput(attrs = {'class':'form-control mb-20'}))
 
 
-class Meta:
-    model = User
-    fields = ("first_name", "last_name", "email", "username", "password1", "password2")
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email", "username", "password1", "password2")
 
-def save(self, commit = True):
-    user = super().save(commit = False)
-    user.email = self.cleaned_data["email"]
-    user.first_name = self.cleaned_data["first_name"]
-    user.last_name = self.cleaned_data["last_name"]
+    def save(self, commit = True):
+        user = super().save(commit = False)
+        user.email = self.cleaned_data["email"]
+        user.first_name = self.cleaned_data["first_name"]
+        user.last_name = self.cleaned_data["last_name"]
 
-    if commit:
-        user.save()
-        return user
+        if commit:
+            user.save()
+            return user
